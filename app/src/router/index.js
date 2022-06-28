@@ -31,9 +31,10 @@ export default new VueRouter({
 
     },
     {
-        path:'/search',
+        path:'/search/:keyword',
         component:Search,
-        meta:{show: true}
+        meta:{show: true},
+        name:'search'
     },
     //重定向,在项目跑起来的时候,访问/,立马让他定向到首页
     {
