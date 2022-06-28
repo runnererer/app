@@ -69,7 +69,12 @@ export default {
         //第二种:模板字符串
         //this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`);
         //第三种:对象
-      this.$router.push({name:'search',params:{keyword:this.keyword}})
+        // this.$router.push({name:'search',params:{keyword:this.keyword},query:{k:this.keyword.toUpperCase()}})
+        /**********************************************************************************/ 
+        //面试题1:路由传递参数(对象写法) path是否可以结合params参数一起使用?
+        //答:路由跳转传参的时候,对象的写法可以是name、path形式,但是需要注意的是,path这种写法不能与params参数一起使用
+        // this.$router.push({path:'/search',params:{keyword:this.keyword},query:{k:this.keyword.toUpperCase()}})
+        this.$router.push({name:'search',params:{keyword:this.keyword},query:{k:this.keyword.toUpperCase()}})
     },
   },
 };
