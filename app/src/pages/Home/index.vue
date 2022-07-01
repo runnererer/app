@@ -6,8 +6,8 @@
    <Recommend/>
    <Rank/>
    <Like/>
-   <Floor/>
-   <Floor/>
+   <!-- Floor这个组件：自己在组件内部没有发请求,数据是父组件给的 -->
+   <Floor v-for="(floor,index) in floorList" :key="floor.id" :list="floor"/>
    <Brand/>
   </div>
 </template>
@@ -20,6 +20,7 @@ import Rank from '@/pages/Home/Rank';
 import Like from '@/pages/Home/Like';
 import Floor from '@/pages/Home/Floor';
 import Brand from '@/pages/Home/Brand';
+import {mapState} from 'vuex'
 export default {
     name:'',
     components:{
@@ -30,6 +31,15 @@ export default {
       Floor,
       Brand
     },
+    mounted(){
+      //因为floor组件复用了,派发action改在home组件进行
+       this.$store.dispatch('getFloorList')
+    },
+    computed:{
+    ...mapState({
+       floorList: state => state.home.floorList
+    })
+},
 }
 </script>
 
