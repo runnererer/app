@@ -3,8 +3,9 @@
     <div class="type-wrap logo">
       <div class="fl key brand">品牌</div>
       <div class="value logos">
+        <!-- 品牌地方 -->
         <ul class="logo-list">
-          <li v-for="(trademark,index) in trademarkList" :key="trademark.tmId">{{trademark.tmName}}</li>
+          <li v-for="(trademark,index) in trademarkList" :key="trademark.tmId" @click="tradeMarkHandler(trademark)">{{trademark.tmName}}</li>
         </ul>
       </div>
       <div class="ext">
@@ -12,11 +13,14 @@
         <a href="javascript:void(0);">更多</a>
       </div>
     </div>
+    <!-- 平台售卖属性的地方 -->
     <div class="type-wrap" v-for="(attr,index) in attrsList" :key="attr.attrId">
+    <!-- 平台售卖属性:比如说颜色  -->
       <div class="fl key">{{attr.attrName}}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attrValue,index) in attr.attrValueList" :key="index">
+          <!-- 平台相应售卖的属性的属性值:粉色,蓝色，黑色... -->
+          <li v-for="(attrValue,index) in attr.attrValueList" :key="attrValue" @click="attrInfo(attr,attrValue)">
             <a>{{attrValue}}</a>
           </li>
         </ul>
@@ -32,6 +36,19 @@ import {mapGetters} from 'vuex';
     name: 'SearchSelector',
     computed:{
       ...mapGetters(['attrsList','trademarkList'])
+    },
+    methods:{
+      //品牌的事件处理函数
+      tradeMarkHandler(trademark){
+          //点击了品牌(苹果),还是需要整理参数,向服务器发请求获取相应的数据进行展示
+          //在父组件中发请求
+          //因为父组件中的searchParams参数是带给服务器参数,子组件把你点击的品牌的信息,需要给父组件传递过去---自定义事件
+          this.$emit('trademarkInfo',trademark);
+      },
+      //平台售卖属性值的点击事件
+      attrInfo(attr,attrValue){
+        this.$emit("attrInfo",attr,attrValue);
+      }
     }
   }
 
