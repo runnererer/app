@@ -4,14 +4,30 @@ import Login from '@/pages/Login'
 import Register from '@/pages/Register'
 import Search from '@/pages/Search'
 import Detail from '@/pages/Detail'
+import AddCartSuccess from '@/pages/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
 //配置路由信息
 export default [
+    {
+        path:'/shopcart',
+        component:ShopCart,
+        //路由元信息key不能瞎写:只能叫做meta
+        meta:{show: true}
+
+    },
+    {
+        path:'/addcartsuccess',
+        name:'addcartsuccess',
+        component:AddCartSuccess,
+        //路由元信息key不能瞎写:只能叫做meta
+        meta:{show: true}
+
+    },
     {
         path:'/detail/:skuid',
         component:Detail,
         //路由元信息key不能瞎写:只能叫做meta
         meta:{show: true}
-
     },
     {
         path:'/home',

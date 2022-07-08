@@ -21,4 +21,12 @@ export const reqFloorList = ()=>mockRequests.get('/floor')
 export const reqGetSearchInfo = (params)=>requests({url:'/list',method:'post',data:params});
 
 //获取产品详情信息的接口 URL: /api/item/{ skuId } 请求方式:get
-export const reqGoodsInfo = (skuId)=>requests({url:`/item/${skuId}`,methods:'get'})
+export const reqGoodsInfo = (skuId)=>requests({url:`/item/${skuId}`,methods:'get'});
+
+//将产品添加到购物车中(获取更新某一个产品的个数)
+///api/cart/addToCart/{ skuId }/{ skuNum } POST
+export const reqAddOrUpdateShopCart = (skuId,skuNum)=>requests({url:`/cart/addToCart/${skuId}/${skuNum}`,method:"post"})
+
+//获取购物车列表数据接口
+//URL:/api/cart/cartList method:get
+export const reqCartList =()=>requests({url:"/cart/cartList",method:'get'})
