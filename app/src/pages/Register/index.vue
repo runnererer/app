@@ -19,21 +19,21 @@
       </div>
       <div class="content">
         <label>登录密码:</label>
-        <input type="text" placeholder="请输入你的登录密码">
+        <input type="password" placeholder="请输入你的登录密码" v-model="password">
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="content">
         <label>确认密码:</label>
-        <input type="text" placeholder="请输入确认密码">
+        <input type="password" placeholder="请输入确认密码" v-model="password1">
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="controls">
-        <input name="m1" type="checkbox">
+        <input name="m1" type="checkbox" :checked="agree">
         <span>同意协议并注册《尚品汇用户协议》</span>
         <span class="error-msg">错误提示信息</span>
       </div>
       <div class="btn">
-        <button>完成注册</button>
+        <button @click="userRegister">完成注册</button>
       </div>
     </div>
 
@@ -64,23 +64,40 @@
        //收集表单数据--手机号
       phone:'',
       //验证码
-      code:''
+      code:'',
+      //密码
+      password:'',
+      //确认密码
+      password1:'',
+      //是否同意
+      agree:true
      }
     },
     methods:{
-      //获取验证码
-     async getCode(){
+    //获取验证码
+    async getCode(){
         //简单判断一下---至少有数据
         try{
         //如果获取到验证码
        this.phone && (await this.$store.dispatch('getCode',this.phone))
-        //将组件的code属性值变为仓库中验证码
-        this.code = this.$store.state.user.code
+        //将组件的code属性值变为仓库中验证码[验证码直接自己填写了]
+        this.code = this.$store.state.user.code;
         }catch (error){
             alert(error.message)
         }
+      },
+    //用户注册
+   async userRegister(){
+     try{
+      //如果成功---路由跳转
+      const {phone,code,password,password1} = this;
+      (phone&&code&&password==password1)&&(await this.$store.dispatch("userRegister",{phone,code,password}));
+      this.$router.push('/login')
+     }catch (error){
+      alert(error.message);
+     }
       }
-    },
+    }
   }
 </script>
 
