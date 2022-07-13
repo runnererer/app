@@ -1,9 +1,10 @@
-//reqGetCode
-import {reqGetCode,reqUserRegister,reqUserLogin,reqUserInfo} from '@/api'
+
+import {reqGetCode,reqUserRegister,reqUserLogin,reqUserInfo,reqLogout} from '@/api'
+import { setToken,getToken,removeToken } from '@/utils/token';
 //登录与注册的模块
 const state = {
     code:'',
-    token:'',
+    token:getToken(),
     userInfo:{}
 };
 const mutations = {
@@ -15,6 +16,14 @@ const mutations = {
     },
     GETUSERINFO(state,userInfo){
         state.userInfo = userInfo; 
+    },
+    //清除本地数据
+    CLEAR(state){
+        //把仓库中相关用户信息清空
+        state.token = '';
+        state.userInfo = {};
+        //本地存储数据清空
+        removeToken();
     }
 };
 const actions = {
@@ -44,7 +53,10 @@ const actions = {
     //服务器下发token,用户唯一标识符(uuid)
     //将来经常通过带token找服务器要用户信息进行展示
     if(result.code==200){
+        //用户已经登录成功且获取到token
         commit('USERLOGIN',result.data.token);
+        //持久化存储token
+        setToken(result.data.token);
         return 'ok'
         }else{
             return Promise.reject(new Error('faile'));
@@ -53,14 +65,26 @@ const actions = {
     //获取用户信息
     async  getUserInfo({commit}){
         let result = await reqUserInfo();
-        console.log(result);
         if(result.code ==200){
             //提交用户信息
             commit("GETUSERINFO",result.data);
             return "ok"
-        } 
+        }else{
+            return Promise.reject(new Error('faile'))
+        }
+    },
+    //退出登录
+   async userLogout({commit}){
+    //只是向服务器发一次请求,通知服务器清除token
+    let result = await reqLogout();
+    //action里面不能操作state,提交mutation修改state
+    if(result.code==200){
+            commit("CLEAR");
+            return 'ok';
+        }else{
+            return Promise.reject(new Error('faile'));
+        }
     }
-
 };
 const getters = {}; 
 

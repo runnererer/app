@@ -6,8 +6,24 @@ import Search from '@/pages/Search'
 import Detail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
+import Trade from '@/pages/Trade'
+import  Pay from '@/pages/Pay'
 //配置路由信息
 export default [
+    {
+        path:'/pay',
+        component:Pay,
+        //路由元信息key不能瞎写:只能叫做meta
+        meta:{show: true}
+
+    },
+    {
+        path:'/trade',
+        component:Trade,
+        //路由元信息key不能瞎写:只能叫做meta
+        meta:{show: true}
+
+    },
     {
         path:'/shopcart',
         component:ShopCart,

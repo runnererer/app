@@ -20,11 +20,15 @@ import '@/components/mock/mockServer';
 import 'swiper/css/swiper.css';
 Vue.config.productionTip = false
 
+//统一暴露接口api文件夹里面全部请求函数
+import * as API from '@/api';
+
 new Vue({
   render: h => h(App),
   //全局事件总线$bus设置
   beforeCreate(){
     Vue.prototype.$bus = this;
+    Vue.prototype.$API = API;
   },
   //注册路由:底下的写法KV一致省略V【router小写的】
   //可以让全部的组件(非路由|路由组件) 都可以获取到$route|$router属性

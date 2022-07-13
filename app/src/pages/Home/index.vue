@@ -34,8 +34,6 @@ export default {
     mounted(){
       //因为floor组件复用了,派发action改在home组件进行
        this.$store.dispatch('getFloorList');
-       //获取用户信息在首页展示
-       this.$store.dispatch('getUserInfo')
     },
     computed:{
     ...mapState({
