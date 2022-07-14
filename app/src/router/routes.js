@@ -1,27 +1,73 @@
 //引入一级路由
-import Home from '@/pages/Home'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
-import Search from '@/pages/Search'
-import Detail from '@/pages/Detail'
-import AddCartSuccess from '@/pages/AddCartSuccess'
-import ShopCart from '@/pages/ShopCart'
-import Trade from '@/pages/Trade'
-import  Pay from '@/pages/Pay'
+import Home from '@/pages/Home';
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
+import Search from '@/pages/Search';
+import Detail from '@/pages/Detail';
+import AddCartSuccess from '@/pages/AddCartSuccess';
+import ShopCart from '@/pages/ShopCart';
+import Trade from '@/pages/Trade';
+import  Pay from '@/pages/Pay';
+import  PaySuccess from '@/pages/PaySuccess';
+import  Center from '@/pages/Center';
+//引入二级路由组件
+import MyOrder from '@/pages/Center/MyOrder';
+import GroupOrder from '@/pages/Center/GroupOrder'
 //配置路由信息
 export default [
     {
-        path:'/pay',
-        component:Pay,
-        //路由元信息key不能瞎写:只能叫做meta
+        path:'/center',
+        component:Center,
+        meta:{show: true},
+        //二级路由组件
+        children:[
+            {
+                path:'myorder',
+                component:MyOrder,
+            },
+            {
+                path:'grouporder',
+                component:GroupOrder,
+            },
+            {
+                path:'/center',
+                redirect:'/center/myorder'
+            }
+        ]
+    },
+    {
+        path:'/paysuccess',
+        component:PaySuccess,
         meta:{show: true}
 
     },
     {
+        path:'/pay',
+        component:Pay,
+        //路由元信息key不能瞎写:只能叫做meta
+        meta:{show: true},
+        beforeEnter:(to,from,next) =>{
+            if(from.path=='/trade'){
+                next()
+            }else{
+                next(false);
+            }
+        }
+    },
+    {
         path:'/trade',
         component:Trade,
-        //路由元信息key不能瞎写:只能叫做meta
-        meta:{show: true}
+        meta:{show: true},
+        //路由独享守卫
+        beforeEnter:(to,from,next)=>{
+            //去交易页面,必须是从购物车而来
+            if(from.path=='/shopcart'){
+                next();
+            }else{
+                //其他的路由组件而来,停留在当前
+                next(false);
+            }
+        }
 
     },
     {

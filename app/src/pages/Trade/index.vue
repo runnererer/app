@@ -94,7 +94,8 @@
     data(){
        //收集买家的留言信息
        return {
-        msg:''
+        msg:'',
+        orderId:''
        }
     },
     //生命周期函数:挂载完毕
@@ -138,6 +139,15 @@
         //需要携带的:tradeNo
         let result =await this.$API.reqSubmitOrder(tradeNo,data);
         console.log(result);
+        //提交订单成功
+        if(result.code==200){
+            this.orderId = result.data;
+            //路由跳转 + 路由传参
+            this.$router.push('/pay?orderId='+this.orderId)
+            //提交订单失败
+        }else{
+          alert(result.data);
+        }
       }
     }
   }

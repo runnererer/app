@@ -6,10 +6,17 @@ import TypeNav from "@/components/TypeNav"
 import Carsousel from '@/components/Carsousel'
 //三级联动组件---分页器
 import Pagination from '@/components/Pagination'
+import { Button,MessageBox} from 'element-ui';
 //第一个参数:全局组件的名字 第二个参数:哪一个组件
 Vue.component(TypeNav.name,TypeNav);
 Vue.component(Carsousel.name,Carsousel);
 Vue.component(Pagination.name,Pagination);
+//饿了么button注册全局组件
+Vue.component(Button.name,Button);
+//ElementUI注册组件的时候,还有一种写法,挂在原型上
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+
 //引入路由
 import router from '@/router'
 //引入仓库
@@ -23,6 +30,8 @@ Vue.config.productionTip = false
 //统一暴露接口api文件夹里面全部请求函数
 import * as API from '@/api';
 
+//引入表单校验插件
+import "@/plugins/validate"
 new Vue({
   render: h => h(App),
   //全局事件总线$bus设置
