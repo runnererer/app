@@ -1,8 +1,8 @@
 //引入一级路由
-import Home from '@/pages/Home';
+// import Home from '@/pages/Home';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
-import Search from '@/pages/Search';
+// import Search from '@/pages/Search'; 下面改为了路由懒加载,所以此处注释掉
 import Detail from '@/pages/Detail';
 import AddCartSuccess from '@/pages/AddCartSuccess';
 import ShopCart from '@/pages/ShopCart';
@@ -14,6 +14,14 @@ import  Center from '@/pages/Center';
 import MyOrder from '@/pages/Center/MyOrder';
 import GroupOrder from '@/pages/Center/GroupOrder'
 //配置路由信息
+
+/*
+路由懒加载: 
+当打包构建应用时，JavaScript 包会变得非常大，影响页面加载。
+如果我们能把不同路由对应的组件分割成不同的代码块，
+然后当路由被访问的时候才加载对应组件，这样就会更加高效。
+*/
+
 export default [
     {
         path:'/center',
@@ -93,7 +101,8 @@ export default [
     },
     {
         path:'/home',
-        component:Home,
+        //路由懒加载写法
+        component:()=>import('@/pages/Home'),
         meta:{show: true}
 
     },
@@ -113,7 +122,7 @@ export default [
         //下面这种写法:代表的是params参数可以传递|当然也可以不传递 ?(正则:两次代表出现次数0|1)
         //今晚在练习的时候,切记?给我带上,因为咱们项目当中params参数就可以不传递|不传递也可以
         path:'/search/:keyword?',
-        component:Search,
+        component:()=>import('@/pages/Search'),
         meta:{show: true},
         name:'search',
     },
@@ -121,5 +130,54 @@ export default [
     {
         path:'*',
         redirect:"/home"
-    }
+    },
+    //下面是补充知识点Communication中的路由
+    {
+        path: '/communication',
+        component: () => import('@/pages/Communication/Communication'),
+        children: [
+          {
+            path: 'event',
+            component: () => import('@/pages/Communication/EventTest/EventTest'),
+            meta: {
+              isHideFooter: true
+            },
+          },
+          {
+            path: 'model',
+            component: () => import('@/pages/Communication/ModelTest/ModelTest'),
+            meta: {
+              isHideFooter: true
+            },
+          },
+          {
+            path: 'sync',
+            component: () => import('@/pages/Communication/SyncTest/SyncTest'),
+            meta: {
+              isHideFooter: true
+            },
+          },
+          {
+            path: 'attrs-listeners',
+            component: () => import('@/pages/Communication/AttrsListenersTest/AttrsListenersTest'),
+            meta: {
+              isHideFooter: true
+            },
+          },
+          {
+            path: 'children-parent',
+            component: () => import('@/pages/Communication/ChildrenParentTest/ChildrenParentTest'),
+            meta: {
+              isHideFooter: true
+            },
+          },
+          {
+            path: 'scope-slot',
+            component: () => import('@/pages/Communication/ScopeSlotTest/ScopeSlotTest'),
+            meta: {
+              isHideFooter: true
+            },
+          }
+        ],
+      },
    ]
